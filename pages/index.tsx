@@ -1,11 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import type { LawAreaType } from "../components/DropDown";
 import { DropDown } from "../components/DropDown";
-import { LegalTermDropDown } from "../components/LegalTerm";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import LoadingDots from "../components/LoadingDots";
@@ -42,6 +41,13 @@ const Home: NextPage = () => {
   const [topic, setTopic] = useState<string>("");
   const [lawArea, setLawArea] = useState<LawAreaType>("Employment Law");
   const [generatedTopics, setGeneratedTopics] = useState<string>("");
+  const legalguidanceRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToLegalGuidance = () => {
+    if (legalguidanceRef.current !== null) {
+      legalguidanceRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const prompt = `I have a legal question regarding "${topic}" in the context of Philippines law. Specifically, I am seeking general legal information, advice and guidance related to ${lawArea} that may be relevant to my situation. I understand that you are not a licensed attorney and that your response is not legal advice, but I am seeking reliable resources or guidance on my legal issue. Can you also suggest steps I can take to find a licensed attorney who can provide me with legal advice in the Philippines?`;
 
@@ -119,7 +125,7 @@ const Home: NextPage = () => {
       const chunkValue = decoder.decode(value);
       setGeneratedTopics((prev) => prev + chunkValue);
     }
-
+    scrollToLegalGuidance(); // Scroll to the legal guidance section
     setLoading(false); // Set the loading state to false once the response is fully received
   };
 
@@ -268,7 +274,9 @@ const Home: NextPage = () => {
                           });
                       }}
                     >
-                      <p className="text-start text-base leading-normal text-slate-900 sm:text-lg lg:text-lg">
+                      <p className="text-start text-base leading-normal text-slate-900 sm:text-lg lg:text-lg"
+                      ref={legalguidanceRef}
+                      >
                         {lines.map((line, index) => (
                           <React.Fragment key={index}>
                             {index === 0 ? (
