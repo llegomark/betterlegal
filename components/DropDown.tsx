@@ -34,6 +34,8 @@ interface DropDownProps {
   setLawArea: (lawArea: LawAreaType) => void;
 }
 
+const LEGALAREA_ID = "law-area-dropdown";
+
 export const DropDown: React.FC<DropDownProps> = ({ lawArea, setLawArea }) => {
   const lawAreas: LawAreaType[] = [
     "Administrative Law",
@@ -60,7 +62,7 @@ export const DropDown: React.FC<DropDownProps> = ({ lawArea, setLawArea }) => {
     <Menu
       as="div"
       className="relative block w-full text-left"
-      key={`dropdown-${lawArea}-${Math.random()}`}
+      key={`${LEGALAREA_ID}-${lawArea}`}
     >
       <div>
         {/* The Menu.Button element renders the main button of the dropdown, which displays the currently selected law area. */}
