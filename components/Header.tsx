@@ -18,7 +18,7 @@ export default function Header({ href }: HeaderProps) {
           aria-label="Better Legal Logo"
         />
         <h1 className="ml-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          Better Legal
+          BetterLegal
         </h1>
       </a>
     </header>

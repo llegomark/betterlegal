@@ -3,8 +3,6 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRef, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import type { LawAreaType } from "../components/DropDown";
-import { DropDown } from "../components/DropDown";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import LoadingDots from "../components/LoadingDots";
@@ -39,7 +37,6 @@ const Home: NextPage = () => {
   const [, setResponse] = useState<ResponseType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [topic, setTopic] = useState<string>("");
-  const [lawArea, setLawArea] = useState<LawAreaType>("Employment Law");
   const [generatedTopics, setGeneratedTopics] = useState<string>("");
   const legalguidanceRef = useRef<null | HTMLDivElement>(null);
 
@@ -49,7 +46,7 @@ const Home: NextPage = () => {
     }
   };
 
-  const prompt = `I have a legal question regarding "${topic}" in the context of Philippines law. Specifically, I am seeking general legal information, advice and guidance related to ${lawArea} that may be relevant to my situation. I understand that you are not a licensed attorney and that your response is not legal advice, but I am seeking reliable resources or guidance on my legal issue. Can you also suggest steps I can take to find a licensed attorney who can provide me with legal advice in the Philippines?`;
+  const prompt = `I have a legal question regarding "${topic}" in the context of Philippines law. Specifically, I am seeking general legal information, advice and guidance that may be relevant to my situation. I understand that you are not a licensed attorney and that your response is not legal advice, but I am seeking reliable resources or guidance on my legal issue. Can you also suggest steps I can take to find a licensed attorney who can provide me with legal advice and representation in the Philippines?`;
 
   // This function is called when the user submits the form
   // It calls the 'generateTopic' function to send a POST request to the API and update the 'generatedTopics' state
@@ -158,7 +155,7 @@ const Home: NextPage = () => {
       <Header href="/" />
       <main className="sm:mt-15 mt-12 flex flex-1 flex-col items-center justify-center px-4 text-center">
         <a
-          className="mb-10 flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-slate-900 shadow-md transition-colors hover:bg-gray-100"
+          className="mb-10 flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-neutral-50 px-4 py-2 text-sm text-slate-900 shadow-md transition-colors hover:bg-gray-100"
           href="/github"
           target="_blank"
           rel="noopener noreferrer"
@@ -166,7 +163,7 @@ const Home: NextPage = () => {
           aria-describedby="github-link"
         >
           <SocialIcon platform="github" size={25} />
-          <p>Star on Github</p>
+          <p>Source Code</p>
         </a>
         <h2 className="mx-auto max-w-4xl text-5xl font-bold tracking-normal text-slate-900 sm:text-6xl md:text-7xl">
           <Balancer>AI-Powered Legal Guidance at Your Fingertips</Balancer>
@@ -176,12 +173,13 @@ const Home: NextPage = () => {
           aria-label="Lesson Planning"
         >
           <Balancer>
-            Access reliable legal guidance for your situation in the Philippines
+            Access legal guidance for your situation in the Philippines
             with our AI-powered system. Our platform offers automated legal
-            information, not legal advice, to help you make informed decisions
-            about your legal issues. Get the answers you need anytime and
-            anywhere with our easy-to-use platform. Experience the power of AI
-            for your legal needs today.
+            information,{" "}
+            <span className="font-bold uppercase">not legal advice,</span> to
+            help you make informed decisions about your legal issues. Get the
+            answers you need anytime and anywhere with our easy-to-use platform.
+            Experience the power of AI for your legal needs today.
           </Balancer>
         </p>
         <div className="w-full max-w-xl px-6">
@@ -190,7 +188,7 @@ const Home: NextPage = () => {
               1
             </span>
             <p className="ml-3 text-left text-base leading-normal text-slate-900 sm:text-lg lg:text-lg">
-              <Balancer>Please describe your legal problem.</Balancer>
+              <Balancer>Please describe your problem.</Balancer>
             </p>
           </div>
           <form onSubmit={handleSubmit}>
@@ -199,7 +197,7 @@ const Home: NextPage = () => {
               onChange={(e) => setTopic(e.target.value)}
               onInput={limitCharacters}
               rows={4}
-              className="focus:shadow-outline mt-5 w-full rounded-lg shadow-sm focus:outline-none"
+              className="focus:shadow-outline mt-5 w-full rounded-lg shadow-sm focus:outline-none bg-neutral-50"
               placeholder={
                 "I recently started a new job and signed an employment contract with my employer. However, I am now having issues with my employer not providing me with the salary and benefits that were promised in the contract. I have tried to discuss the issue with my employer, but they have been unresponsive. What are my legal rights as an employee in the Philippines, and what steps can I take to resolve this issue?"
               }
@@ -208,23 +206,6 @@ const Home: NextPage = () => {
             <p className="mt-2 text-right text-sm text-gray-500">
               {topic.length}/600
             </p>
-            <div className="align-items-center mt-10 flex items-center">
-              <span className="leading-zero flex h-6 w-6 items-center justify-center rounded-full bg-black p-2 text-center text-white">
-                2
-              </span>
-              <p className="ml-3 text-left text-base leading-normal text-slate-900 sm:text-lg lg:text-lg">
-                <Balancer>
-                  Select the general area of law that your legal problem falls
-                  under.
-                </Balancer>
-              </p>
-            </div>
-            <div className="mt-3 block">
-              <DropDown
-                lawArea={lawArea}
-                setLawArea={(newLawArea) => setLawArea(newLawArea)}
-              />
-            </div>
             {!loading && (
               <button
                 className="mt-10 w-full rounded-lg bg-black px-4 py-2 text-base font-bold text-white transition-colors hover:bg-black/80"
@@ -274,8 +255,9 @@ const Home: NextPage = () => {
                           });
                       }}
                     >
-                      <p className="text-start text-base leading-normal text-slate-900 sm:text-lg lg:text-lg"
-                      ref={legalguidanceRef}
+                      <p
+                        className="text-start text-base leading-normal text-slate-900 sm:text-lg lg:text-lg"
+                        ref={legalguidanceRef}
                       >
                         {lines.map((line, index) => (
                           <React.Fragment key={index}>
